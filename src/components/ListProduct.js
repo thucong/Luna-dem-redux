@@ -3,23 +3,38 @@ import ItemProduct from "./ItemProduct";
 import { connect } from "react-redux";
 import * as actions from ".//../actions/index";
 import ListProductService from "./../services/ListProductService";
+import callApi from "../utils/apiCaller";
 class ListProduct extends Component {
+  onDelete = (id) => {
+
+  }
   listProduct = (products) => {
     let result = null;
+    console.log(products);
     if (products.length > 0) {
       result = products.map((product, index) => {
-        return <ItemProduct key={product.id} product={product} index={index} />;
+        return <ItemProduct key={product.id} product={product} index={index} onDelete={this.onDelete} />;
       });
     }
     return result;
   };
-  componentDidMount() {
-    ListProductService.fetchListProduct().then((res) => {
-      this.props.listProduct(res.data);
-    });
+  // componentDidMount() {
+  //   // ListProductService.fetchListProduct().then((res) => {
+  //   //   this.props.listProduct(res.data);
+  //   // });
+  //   callApi('products','GET',null).then(res => {
+  //     this.props.listProduct(res.data);
+  //   })
+  // }
+  componentDidMount(){
+   this.props.listProductRequest();
+  }
+  onDelete = (id) => {
+    this.props.deleteProduct(id);
   }
   render() {
     var products = this.props.products;
+    console.log(products)
     return (
       <div>
         <table className="content">
@@ -45,9 +60,12 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    listProduct: (products) => {
-      return dispatch(actions.listProduct(products));
+    listProductRequest: () => {
+      return dispatch(actions.listProductRequest());
     },
+    deleteProduct: (id) => {
+      dispatch(actions.deleteProductRequest(id));
+    }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ListProduct);

@@ -1,7 +1,23 @@
 import React, { Component } from "react";
+import AddProduct from "./AddProduct";
 import ListProduct from "./ListProduct";
 
 class Index extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      products: [],
+      displayAddForm: false,
+      
+    }
+
+  }
+  onAddForm = () => {
+    this.setState({displayAddForm: true});
+  }
+  CloseForm = () => {
+    this.setState({displayAddForm: false});
+  }
   render() {
     return (
       <div className="container">
@@ -10,9 +26,9 @@ class Index extends Component {
         </div>
         <hr />
         <div>
-          <button className="add-button">Thêm sản phẩm</button>
+          <button className="add-button" onClick={this.onAddForm}>Thêm sản phẩm</button>
         </div>
-
+        {this.state.displayAddForm ? (<div><AddProduct CloseForm={this.CloseForm}/></div>) : ""}
         <div>
           <ListProduct />
         </div>

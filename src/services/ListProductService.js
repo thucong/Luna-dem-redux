@@ -9,5 +9,14 @@ const ListProductService = {
       data: {},
     });
   },
+  fetchAddProduct: (product) => {
+    return axios({
+      method: "POST",
+      url: API_URL,
+      data: {
+       'product': product
+      },
+    })
+  }
 };
 export default ListProductService;
