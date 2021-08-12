@@ -1,4 +1,3 @@
-import ListProductService from "../services/ListProductService";
 import * as types from "./../constants/ActionTypes";
 import callApi from "../utils/apiCaller";
 
@@ -24,7 +23,7 @@ export const addProduct = (product) => {
 };
 export const addProductRequest = (product) => {
   return (dispatch) => {
-    return callApi("products", "POST",product).then((res) => {
+    return callApi("products", "POST", product).then((res) => {
       dispatch(addProduct(res.data));
     });
   };
@@ -32,13 +31,13 @@ export const addProductRequest = (product) => {
 export const deleteProduct = (id) => {
   return {
     type: types.DELETE_PRODUCT,
-    id
-  }
-}
+    id,
+  };
+};
 export const deleteProductRequest = (id) => {
-  return dispatch => {
-    return callApi(`products/${id}`, "DELETE",null).then((res) =>{
+  return (dispatch) => {
+    return callApi("products/" + id, "DELETE", null).then((res) => {
       dispatch(deleteProduct(id));
-    })
-  }
-}
+    });
+  };
+};

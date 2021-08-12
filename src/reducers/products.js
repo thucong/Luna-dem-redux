@@ -16,18 +16,6 @@ var myReducer = (state = initialState, action) => {
       state = action.products;
       return [...state];
     case types.ADD_PRODUCT:
-      // console.log(action);
-      // var newProduct = {
-      //   id: randomId(),
-      //   name: action.product.name,
-      //   price: action.product.price,
-      //   content: action.product.content,
-      // }
-      // console.log(newProduct);
-     // state.push(newProduct);
-      
-     // localStorage.setItem('products', JSON.stringify(state));
-     // return [...state]
      state.push(action.product);
      return [...state];
     case types.DELETE_PRODUCT:
