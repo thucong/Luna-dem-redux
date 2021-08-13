@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from ".//../actions/index";
 import { Link } from "react-router-dom";
-class AddProduct extends Component {
+import * as actions from ".//../actions/index";
+
+class UpdateProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +23,26 @@ class AddProduct extends Component {
     });
   };
 
+  componentDidMount() {
+    var match = this.props.match;
+    if (match) {
+      var id = match.params.id;
+      this.props.onGetProduct(id);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps && nextProps.updateProduct) {
+      var updateProduct = nextProps.updateProduct;
+      this.setState({
+        id: updateProduct.id,
+        name: updateProduct.name,
+        price: updateProduct.price,
+        content: updateProduct.content,
+      });
+    }
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
     var { id, name, price, content } = this.state;
@@ -31,12 +52,9 @@ class AddProduct extends Component {
       price: price,
       content: content,
     };
-    this.props.addProduct(product);
-    this.setState({
-      name: "",
-      price: "",
-      content: "",
-    });
+    if (id) {
+      this.props.onUpdateProduct(product);
+    }
     this.props.history.push("/");
   };
 
@@ -49,7 +67,7 @@ class AddProduct extends Component {
             <Link to="/">
               <span className="close">&times;</span>
             </Link>
-            <h2>Thêm sản phẩm</h2>
+            <h2>Sửa sản phẩm</h2>
             <div className="fomrgroup">
               <b>Tên sản phẩm:</b>
               <input
@@ -81,7 +99,7 @@ class AddProduct extends Component {
             </div>
             <div className="fomrgroup">
               <button className="add-button" onClick={this.onSubmit}>
-                Thêm
+                Sửa
               </button>
             </div>
           </form>
@@ -91,12 +109,21 @@ class AddProduct extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    updateProduct: state.updateProduct,
+  };
+};
+
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    addProduct: (product) => {
-      dispatch(actions.addProductRequest(product));
+    onGetProduct: (id) => {
+      dispatch(actions.getProductRequest(id));
+    },
+    onUpdateProduct: (product) => {
+      dispatch(actions.updateProductRequest(product));
     },
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateProduct);

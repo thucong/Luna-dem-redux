@@ -23,6 +23,7 @@ class App extends Component {
       return result;
     }
   };
+
   render() {
     return (
       <div className="App">

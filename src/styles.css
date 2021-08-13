@@ -88,3 +88,7 @@ button {
   text-decoration: none;
   cursor: pointer;
 }
+.modal {
+  margin: 30px;
+  width: 1000px;
+}

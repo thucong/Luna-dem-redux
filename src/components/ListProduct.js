@@ -4,22 +4,31 @@ import { connect } from "react-redux";
 import * as actions from ".//../actions/index";
 
 class ListProduct extends Component {
-  
   listProduct = (products) => {
     let result = null;
     if (products.length > 0) {
       result = products.map((product, index) => {
-        return <ItemProduct key={product.id} product={product} index={index} onDelete={this.onDelete} />;
+        return (
+          <ItemProduct
+            key={product.id}
+            product={product}
+            index={index}
+            onDelete={this.onDelete}
+          />
+        );
       });
     }
     return result;
   };
-  componentDidMount(){
-   this.props.listProductRequest();
+
+  componentDidMount() {
+    this.props.listProductRequest();
   }
+
   onDelete = (id) => {
     this.props.deleteProduct(id);
-  }
+  };
+
   render() {
     var products = this.props.products;
     return (
@@ -30,6 +39,7 @@ class ListProduct extends Component {
               <th>STT</th>
               <th>Tên sản phẩm</th>
               <th>Giá sản phẩm</th>
+              <th>Mô tả</th>
               <th>Chức năng</th>
             </tr>
           </thead>
@@ -45,6 +55,7 @@ const mapStateToProps = (state) => {
     products: state.products,
   };
 };
+
 const mapDispatchToProps = (dispatch, props) => {
   return {
     listProductRequest: () => {
@@ -52,7 +63,8 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     deleteProduct: (id) => {
       dispatch(actions.deleteProductRequest(id));
-    }
+    },
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(ListProduct);
